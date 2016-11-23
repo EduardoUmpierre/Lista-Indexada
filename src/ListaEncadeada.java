@@ -78,13 +78,14 @@ public class ListaEncadeada<T> implements Iterable<T> {
 				head = next;
 			} else {
 				previous.next = next;
-				current.previous = previous;
+				next.previous = previous;
 			}
 			
 			if (next == null) {
 				tail = previous;
 			}
 		}
+		
 		@Override
 		public void append(T dado) {
 			if (current == null) {
