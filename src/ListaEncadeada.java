@@ -51,6 +51,7 @@ public class ListaEncadeada<T> implements Iterable<T> {
 				return head != null;
 			return current.next != null;
 		}
+		
 		@Override
 		public T next() {
 			if (!hasNext())
@@ -62,20 +63,24 @@ public class ListaEncadeada<T> implements Iterable<T> {
 				previous = current;
 				current = current.next;
 			}
+			
 			return current.data;
 		}
+		
 		@Override
 		public void remove() {
-			if (current == null) {
+			if (current == null)
 				throw new IllegalStateException("Use next()!");
-			}
+			
 			Node next = current.next;
 			
 			if (previous == null) {
 				head = next;
 			} else {
 				previous.next = next;
+				current.previous = previous;
 			}
+			
 			if (next == null) {
 				tail = previous;
 			}
