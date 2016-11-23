@@ -89,20 +89,21 @@ public class ListaEncadeada<T> implements Iterable<T> {
 		
 		@Override
 		public void append(T dado) {
-			if (current == null) {
+			if (current == null)
 				throw new IllegalStateException("Use next()!");
-			}
 			
 			Node node = new Node(dado);
 			Node next = current.next;
 			
 			node.next = next;
+			node.previous = current;
+			
 			current.next = node;
 			
-			if (current == tail) {
+			if (current == tail)
 				tail = node;
-			}
 		}
+		
 		@Override
 		public void insert(T dado) {
 			if (current == null) {
