@@ -78,11 +78,12 @@ public class ListaEncadeada<T> implements Iterable<T> {
 				head = next;
 			} else {
 				previous.next = next;
-				next.previous = previous;
 			}
 			
 			if (next == null) {
 				tail = previous;
+			} else {
+				next.previous = previous;
 			}
 		}
 		
