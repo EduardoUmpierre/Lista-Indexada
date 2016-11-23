@@ -8,9 +8,9 @@ public class ListaEncadeada<T> implements Iterable<T> {
 		if (tail != null) {
 			novo.previous = tail;
 			tail.next = novo;
-		}
-		else
+		} else {
 			head = novo;
+		}
 		
 		tail = novo;
 	}
