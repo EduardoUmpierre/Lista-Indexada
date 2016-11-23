@@ -21,6 +21,8 @@ public class ListaEncadeada<T> implements Iterable<T> {
 		
 		if (head == null)
 			tail = novo;
+		else
+			head.previous = novo;
 		
 		head = novo;
 	}
