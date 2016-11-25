@@ -2,6 +2,14 @@ public class ListaEncadeada<T> implements Iterable<T> {
 	private Node head;
 	private Node tail;
 
+	public Node getHead() {
+		return head;
+	}
+	
+	public Node getTail() {
+		return tail;
+	}
+	
 	void append(T value) {
 		Node novo = new Node(value);
 		
@@ -11,6 +19,21 @@ public class ListaEncadeada<T> implements Iterable<T> {
 		} else {
 			head = novo;
 		}
+		
+		tail = novo;
+	}
+	
+	void append(T value, Node downLevel) {
+		Node novo = new Node(value);
+		
+		if (tail != null) {
+			novo.previous = tail;
+			tail.next = novo;
+		} else {
+			head = novo;
+		}
+		
+		novo.downLevel = downLevel;
 		
 		tail = novo;
 	}
@@ -31,19 +54,40 @@ public class ListaEncadeada<T> implements Iterable<T> {
 		return new ListIterator();
 	}
 	
-	private class Node {
+	protected class Node {
 		private T data;
+		private Node downLevel;
 		private Node previous;
 		private Node next;
 		
 		public Node(T value) {
 			data = value;
 		}
+		
+		public Node getDownLevel() {
+			return downLevel;
+		}
+		
+		public Node getNext() {
+			return next;
+		}
+		
+		public Node getPrevious() {
+			return previous;
+		}
+		
+		public T getData() {
+			return data;
+		}
 	}
 	
 	private class ListIterator implements Iterador<T> {
 		private Node current = null;
 		private Node previous = null;
+		
+		public Node getCurrent() {
+			return current;
+		}
 		
 		@Override
 		public boolean hasNext() {
@@ -105,19 +149,39 @@ public class ListaEncadeada<T> implements Iterable<T> {
 		}
 		
 		@Override
-		public void insert(T dado) {
-			if (current == null) {
+		public void append(T dado, Node downLevel) {
+			if (current == null)
 				throw new IllegalStateException("Use next()!");
-			}
+			
+			Node node = new Node(dado);
+			Node next = current.next;
+			
+			node.next = next;
+			node.previous = current;
+			
+			current.next = node;
+			current.downLevel = downLevel;
+			
+			if (current == tail)
+				tail = node;
+		}
+		
+		@Override
+		public void insert(T dado) {
+			if (current == null)
+				throw new IllegalStateException("Use next()!");
 			
 			Node node = new Node(dado);
 			
 			node.next = current;
-			if (previous != null)
+			current.previous = node;
+			
+			if (previous != null) {
+				node.previous = previous;
 				previous.next = node;
-			else {
-				head = node;
 			}
+			else
+				head = node;
 		}
 	}
 }
